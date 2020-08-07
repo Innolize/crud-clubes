@@ -1,0 +1,67 @@
+{{#if equipo}}
+<div class='contenedor-equipo'>
+    {{#if equipo.crestUrl}}
+    <img class='imagen-club-grande' src={{equipo.crestUrl}} />
+    {{else}}
+    <div class='imagen-club-faltante'>
+        <h4>Missing image</h4>
+    </div>
+    {{/if}}
+    <h2>{{equipo.name}}</h2>
+    <table class='table tabla-equipo'>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>{{equipo.name}}</td>
+            </tr>
+            <tr>
+                <td>Short name</td>
+                <td>{{equipo.shortName}}</td>
+            </tr>
+            <tr>
+                <td>TLA</td>
+                <td>{{equipo.tla}}</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>{{equipo.address}}</td>
+            </tr>
+            <tr>
+                <td>Phone number</td>
+                <td>{{equipo.phone}}</td>
+            </tr>
+            <tr>
+                <td>Website</td>
+                <td><a href="{{equipo.website}}">{{equipo.website}}</a></td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td>{{equipo.email}}</td>
+            </tr>
+            <tr>
+                <td>Founded</td>
+                <td>{{equipo.founded}}</td>
+            </tr>
+            <tr>
+                <td>Club Colors</td>
+                <td>{{equipo.clubColors}}</td>
+            </tr>
+            <tr>
+                <td>Venue</td>
+                <td>{{equipo.venue}}</td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td>{{equipo.area.name}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class='contenedor-botones'>
+        <a class="editar-equipo" href="/edit-team/{{equipo.tla}}">Edit team</a>
+        <a class="borrar-equipo" href="/delete-team/{{equipo.tla}}/">Delete team</a>
+    </div>
+
+</div>
+
+{{/if}}

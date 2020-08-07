@@ -1,0 +1,21 @@
+<div class="container-lista-equipos">
+    <a href="/create-team">Create team</a>
+    <table class="table table-striped">
+        <tr>
+            <th>Nombre del equipo</th>
+            <th>Pais</th>
+            <th>Accion</th>
+        </tr>
+        {{#each equipos as |equipo|}}
+        <tr>
+            <td><img class='imagen-miniatura-club' src={{equipo.crestUrl}}>{{equipo.name}}</td>
+            <td>{{equipo.area.name}}</td>
+            <td>
+                <a href="/team/{{equipo.tla}}">Ver</a>
+                <a href="/edit-team/{{equipo.tla}}">Editar</a>
+                <a href="/delete-team/{{equipo.tla}}"> Eliminar</a>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>

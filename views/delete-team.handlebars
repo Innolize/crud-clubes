@@ -1,0 +1,7 @@
+<div class="contenedor-equipo">
+    <h3>Are you sure you want to delete this team?</h3>
+    <h4>{{equipo.name}}</h4>
+    <form action='/remove-team/{{equipo.tla}}' method="POST" enctype="application/x-www-form-urlencoded">
+        <input type="submit" value="yes, im sure"> <a href="/"> no, back to menu</a>
+    </form>
+</div>
