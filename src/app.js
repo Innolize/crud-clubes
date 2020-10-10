@@ -20,9 +20,9 @@ const hbs = exphbr.create({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(`${__dirname}/uploads`))
+app.use(express.static(`${__dirname}/img`))
 app.use(express.static('public'))
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/module/club/view');
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
@@ -32,4 +32,4 @@ app.use(container.get('Session'));
 
 initClubModule(app, container)
 
-app.listen(PUERTO, () => console.log(`Escuchando en http://localhost:${PUERTO}`)); 
+app.listen(PUERTO, () => console.log(`Escuchando en http://localhost:${PUERTO}`));

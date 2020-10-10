@@ -25,7 +25,7 @@ const mappearClub = (objeto, imagen = '') => {
         id: 2072,
         name: objeto.area ? objeto.area.name : objeto.country
     }
-    const crestUrl = imagen ? `/imagenes/${imagen}` : objeto.crestUrl
+    const crestUrl = imagen ? `/img/${imagen}` : objeto.crestUrl
     const lastUpdate = Date.now().toString()
     return new Club(name, area, shortName, tla, crestUrl, address, phone, website, email, founded, clubColors, venue, lastUpdate)
 }

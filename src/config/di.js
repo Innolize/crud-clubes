@@ -1,11 +1,12 @@
 const uuid = require('uuid')
+const path = require('path')
 const fs = require('fs')
 const { default: DIContainer, object, get, factory, } = require('rsdi')
 const multer = require('multer')
 
 const session = require('express-session')
 
-const ClubController = require('../module/club/controller/clubController')
+const { ClubController, ClubRepository, ClubService } = require('../module/club/module')
 
 function configureMainJSON() {
     return process.env.JSON_DB_PATH;
@@ -26,7 +27,7 @@ function configureSession() {
 function configureMulter() {
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, './uploads/imagenes')
+            cb(null, process.env.CRESTS_UPLOAD_DIR)
         },
         filename: function (req, file, cb) {
             cb(null, Date.now() + path.extname(file.originalname))
@@ -59,11 +60,13 @@ function addCommonDefinitions(container) {
 
 function addClubModuleDefinitions(container) {
     container.addDefinitions({
-        ClubController: object(ClubController).construct(get('Multer'))
+        ClubController: object(ClubController).construct(get('Multer'), get('ClubService')),
+        ClubService: object(ClubService).construct(get('ClubRepository')),
+        ClubRepository: object(ClubRepository).construct(get('uuid'), get('fs'), get('JSONDatabase'))
     })
 }
 
-module.exports = function configureDI(){
+module.exports = function configureDI() {
     const container = new DIContainer();
     addCommonDefinitions(container)
     addClubModuleDefinitions(container)

@@ -8,4 +8,5 @@ module.exports = class AbstractClubRepository {
             );
         }
     }
+    getData(){}
 }

@@ -4,19 +4,26 @@ const { mappearClub } = require('../mapper/club-mapper')
 
 
 module.exports = class ClubController extends AbstractController {
-    constructor(uploadMiddleware) {
+
+    /**
+     * 
+     * @param {import('../service/clubService')} clubService 
+     */
+
+    constructor(uploadMiddleware, clubService) {
         super();
         this.ROUTE_BASE = "/club";
         this.uploadMiddleware = uploadMiddleware
+        this.clubService = clubService
     }
 
     configureRoutes(app) {
         const ROUTE = this.ROUTE_BASE
 
         app.get(`/`, this.index.bind(this));
-        app.get('/team/:selectedTeam', this.showSelectedTeam.bind(this))
-        app.get('/edit-team/:selectedTeam', this.editSelectedTeam.bind(this))
-        app.get('/delete-team/:selectedTeam', this.deleteSelectedTeam.bind(this))
+        app.get('/team/:id', this.showSelectedTeam.bind(this))
+        app.get('/edit-team/:id', this.editSelectedTeam.bind(this))
+        app.get('/delete-team/:id', this.deleteSelectedTeam.bind(this))
         app.get('/create-team', this.createTeam.bind(this))
         app.post('/form', this.uploadMiddleware.single('logo'), this.save.bind(this))
         app.post('/edit-team/:team', this.uploadMiddleware.single('logo'), this.editTeam.bind(this))
@@ -29,7 +36,7 @@ module.exports = class ClubController extends AbstractController {
     */
 
     index(req, res) {
-        const equipos = JSON.parse(fs.readFileSync('./data/equipos.json'))
+        const equipos = this.clubService.getData()
 
         res.render('main-page', {
             layout: 'main',
@@ -46,9 +53,8 @@ module.exports = class ClubController extends AbstractController {
     */
 
     showSelectedTeam(req, res) {
-        const equipoSeleccionado = req.params.selectedTeam.toLocaleLowerCase()
-        const equipos = JSON.parse(fs.readFileSync(`./data/equipos.json`))
-        const equipo = equipos.filter(x => x.tla.toLocaleLowerCase() === equipoSeleccionado).pop()
+        const id = req.params.id.toLowerCase()
+        const equipo = this.clubService.getByID(id)
 
         res.render('view-team', {
             layout: 'main',
@@ -63,10 +69,9 @@ module.exports = class ClubController extends AbstractController {
     */
 
     editSelectedTeam(req, res) {
-        const equipoSeleccionado = req.params.selectedTeam.toLocaleLowerCase()
-        const equipos = JSON.parse(fs.readFileSync(`./data/equipos.json`))
-        const equipoFiltrado = equipos.filter(x => x.tla.toLocaleLowerCase() === equipoSeleccionado).pop()
-        const equipo = mapperClub.mappearClub(equipoFiltrado)
+        const id = req.params.id.toLowerCase()
+        const equipoPorID = this.clubService.getByID(id)
+        const equipo = mappearClub(equipoPorID)
 
         res.render('edit-team', {
             layout: 'main',
@@ -81,9 +86,8 @@ module.exports = class ClubController extends AbstractController {
     */
 
     deleteSelectedTeam(req, res) {
-        const equipoSeleccionado = req.params.selectedTeam.toLocaleLowerCase()
-        const equipos = JSON.parse(fs.readFileSync(`./data/equipos.json`))
-        const equipo = equipos.filter(x => x.tla.toLocaleLowerCase() === equipoSeleccionado).pop()
+        const id = req.params.id.toLowerCase()        
+        const equipo = this.clubService.getByID(id)
 
         res.render('delete-team', {
             layout: 'main',
@@ -110,10 +114,8 @@ module.exports = class ClubController extends AbstractController {
     */
 
     save(req, res) {
-        const equipos = JSON.parse(fs.readFileSync('./data/equipos.json'))
-        const nuevoClub = mapperClub.mappearClub(req.body, req.file.filename)
-        const nuevosEquipos = JSON.stringify([...equipos, nuevoClub])
-        fs.writeFileSync('./data/equipos.json', nuevosEquipos)
+        const nuevoClub = mappearClub(req.body, req.file.filename)
+        this.clubService.saveTeam(nuevoClub)
 
         res.render('exito', {
             layout: 'main'
