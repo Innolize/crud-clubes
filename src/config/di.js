@@ -5,7 +5,7 @@ const multer = require('multer')
 
 const session = require('express-session')
 
-const ClubController = require('../controller/clubController')
+const ClubController = require('../module/club/controller/clubController')
 
 function configureMainJSON() {
     return process.env.JSON_DB_PATH;
