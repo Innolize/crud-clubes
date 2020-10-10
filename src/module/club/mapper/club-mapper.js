@@ -1,4 +1,11 @@
-const club = require('../entidades/Club.js')
+const { Club } = require('../entity/Club.js')
+
+/**
+ * 
+ * @param {Object} objeto 
+ * @returns Club
+ */
+
 
 const mappearClub = (objeto, imagen = '') => {
     const {
@@ -20,7 +27,9 @@ const mappearClub = (objeto, imagen = '') => {
     }
     const crestUrl = imagen ? `/imagenes/${imagen}` : objeto.crestUrl
     const lastUpdate = Date.now().toString()
-    return new club.Club(name, area, shortName, tla, crestUrl, address, phone, website, email, founded, clubColors, venue, lastUpdate)
+    return new Club(name, area, shortName, tla, crestUrl, address, phone, website, email, founded, clubColors, venue, lastUpdate)
 }
 
-exports.mappearClub = mappearClub
+module.exports = {
+    mappearClub,
+}

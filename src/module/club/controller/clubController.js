@@ -1,13 +1,13 @@
-const AbstractController = require("./AbstractController");
+const AbstractController = require("../../AbstractController");
+const { mappearClub } = require('../mapper/club-mapper')
 
 
 
 module.exports = class ClubController extends AbstractController {
-    constructor(uploadMiddleware, clubService) {
+    constructor(uploadMiddleware) {
         super();
         this.ROUTE_BASE = "/club";
         this.uploadMiddleware = uploadMiddleware
-        this.clubService = clubService
     }
 
     configureRoutes(app) {

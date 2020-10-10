@@ -4,7 +4,7 @@ const exphbr = require('express-handlebars')
 const fs = require('fs');
 const multer = require('multer');
 const bodyParser = require('body-parser')
-const mapperClub = require('./mapeadores/club-mapper.js');
+const mapperClub = require('./module/club/mapper/club-mapper.js');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
