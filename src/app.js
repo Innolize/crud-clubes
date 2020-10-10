@@ -4,7 +4,6 @@ const fs = require('fs');
 const multer = require('multer');
 const bodyParser = require('body-parser')
 const mapperClub = require('./mapeadores/club-mapper.js');
-const { config } = require('process');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
