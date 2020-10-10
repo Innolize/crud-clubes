@@ -16,13 +16,14 @@ const storage = multer.diskStorage({
 })
 
 const app = express()
+const PUERTO = 8080;
+
 const upload = multer({ storage })
 const hbs = exphbr.create({
     layoutsDir: `${__dirname}/views/layouts`,
-    
 })
 
-const PUERTO = 8080;
+
 
 // Middlewares
 
@@ -43,8 +44,9 @@ app.get('/', function (req, res) {
 
     res.render('main-page', {
         layout: 'main',
+        titulo: "CRUD",
         data: {
-            equipos,
+            equipos
         }
     });
 });
@@ -56,6 +58,7 @@ app.get('/team/:selectedTeam', function (req, res) {
 
     res.render('view-team', {
         layout: 'main',
+        titulo: equipo.name,
         equipo
 
     });
@@ -69,6 +72,7 @@ app.get('/edit-team/:selectedTeam', function (req, res) {
 
     res.render('edit-team', {
         layout: 'main',
+        titulo: equipo.name,
         equipo
 
     });
@@ -81,6 +85,7 @@ app.get('/delete-team/:selectedTeam', function (req, res) {
 
     res.render('delete-team', {
         layout: 'main',
+        titulo: equipo.name,
         equipo
 
     });
@@ -88,7 +93,8 @@ app.get('/delete-team/:selectedTeam', function (req, res) {
 
 app.get('/create-team', function (req, res) {
     res.render('create-team', {
-        layout: 'main'
+        layout: 'main',
+        titulo: "New team"
     });
 });
 
@@ -124,5 +130,4 @@ app.post('/remove-team/:team', function (req, res) {
     res.redirect(`/`)
 })
 
-app.listen(PUERTO);
-console.log(`Escuchando en http://localhost:${PUERTO}`);
+app.listen(PUERTO, () => console.log(`Escuchando en http://localhost:${PUERTO}`)); 
