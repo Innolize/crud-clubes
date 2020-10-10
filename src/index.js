@@ -3,7 +3,8 @@ const exphbr = require('express-handlebars')
 const fs = require('fs');
 const multer = require('multer');
 const bodyParser = require('body-parser')
-const mapperClub = require('./mapeadores/club-mapper.js')
+const mapperClub = require('./mapeadores/club-mapper.js');
+const { config } = require('process');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -16,7 +17,10 @@ const storage = multer.diskStorage({
 
 const app = express()
 const upload = multer({ storage })
-const hbs = exphbr.create()
+const hbs = exphbr.create({
+    layoutsDir: `${__dirname}/views/layouts`,
+    
+})
 
 const PUERTO = 8080;
 
@@ -27,8 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(`${__dirname}/uploads`))
 app.use(express.static('public'))
-
-
+app.set('views', __dirname + '/views');
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
@@ -75,7 +78,6 @@ app.get('/delete-team/:selectedTeam', function (req, res) {
     const equipoSeleccionado = req.params.selectedTeam.toLocaleLowerCase()
     const equipos = JSON.parse(fs.readFileSync(`./data/equipos.json`))
     const equipo = equipos.filter(x => x.tla.toLocaleLowerCase() === equipoSeleccionado).pop()
-    console.log(equipo)
 
     res.render('delete-team', {
         layout: 'main',

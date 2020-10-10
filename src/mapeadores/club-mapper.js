@@ -1,7 +1,6 @@
 const club = require('../entidades/Club.js')
 
 const mappearClub = (objeto, imagen = '') => {
-    console.log(objeto)
     const {
         name,
         shortName,
