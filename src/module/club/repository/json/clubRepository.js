@@ -46,4 +46,20 @@ module.exports = class ClubRepository extends AbstractClubRepository {
         this.fileSystem.writeFileSync(this.dbFilePath, JSON.stringify(content));
     }
 
+    deleteTeam(team) {
+        const equipos = this.getData()
+        const indexABorrar = equipos.findIndex(x => x.id === team.id)
+        equipos.splice(indexABorrar, 1);
+        this.saveData(equipos)
+
+    }
+
+    editTeam(equipoModificado) {
+        const equipos = this.getData()
+        const nuevosEquipos = equipos.map(equipo => JSON.stringify(equipo.id) === equipoModificado.id ? Object.assign(equipo, equipoModificado) : equipo)
+        console.log(nuevosEquipos)
+        this.saveData(nuevosEquipos)
+
+    }
+
 }

@@ -26,8 +26,8 @@ module.exports = class ClubController extends AbstractController {
         app.get('/delete-team/:id', this.deleteSelectedTeam.bind(this))
         app.get('/create-team', this.createTeam.bind(this))
         app.post('/form', this.uploadMiddleware.single('logo'), this.save.bind(this))
-        app.post('/edit-team/:team', this.uploadMiddleware.single('logo'), this.editTeam.bind(this))
-        app.post('/remove-team/:team', this.removeTeam.bind(this))
+        app.post('/edit-team/:id', this.uploadMiddleware.single('logo'), this.editTeam.bind(this))
+        app.post('/remove-team/:id', this.removeTeam.bind(this))
     }
 
     /**
@@ -55,6 +55,7 @@ module.exports = class ClubController extends AbstractController {
     showSelectedTeam(req, res) {
         const id = req.params.id.toLowerCase()
         const equipo = this.clubService.getByID(id)
+        this.clubService
 
         res.render('view-team', {
             layout: 'main',
@@ -86,7 +87,7 @@ module.exports = class ClubController extends AbstractController {
     */
 
     deleteSelectedTeam(req, res) {
-        const id = req.params.id.toLowerCase()        
+        const id = req.params.id.toLowerCase()
         const equipo = this.clubService.getByID(id)
 
         res.render('delete-team', {
@@ -128,14 +129,12 @@ module.exports = class ClubController extends AbstractController {
     */
 
     editTeam(req, res) {
-        const teamAEditar = req.params.team.toUpperCase()
-        const equipos = JSON.parse(fs.readFileSync('./data/equipos.json'))
-        const nuevoClub = mapperClub.mappearClub(req.body, req.file.filename)
-        console.log(req.file.filename)
-        const nuevosEquipos = equipos.map(equipo => equipo.tla === teamAEditar ? Object.assign(equipo, nuevoClub) : equipo)
+        const id = req.params.id.toLowerCase()
+        const equipoModificado = mappearClub(req.body, req.file.filename)
+        console.log(equipoModificado)
+        this.clubService.editTeam(equipoModificado)
 
-        fs.writeFileSync('./data/equipos.json', JSON.stringify(nuevosEquipos))
-        res.redirect(`/team/${teamAEditar}`)
+        res.redirect(`/team/${id}`)
     }
 
     /**
@@ -144,10 +143,9 @@ module.exports = class ClubController extends AbstractController {
     */
 
     removeTeam(req, res) {
-        const teamAEliminar = req.params.team.toLowerCase()
-        const equipos = JSON.parse(fs.readFileSync('./data/equipos.json'))
-        const nuevosEquipos = equipos.filter(equipo => equipo.tla.toLowerCase() !== teamAEliminar)
-        fs.writeFileSync('./data/equipos.json', JSON.stringify(nuevosEquipos))
+        const id = req.params.id.toLowerCase()
+        const equipo = this.clubService.getByID(id)
+        this.clubService.deleteTeam(equipo)
         res.redirect(`/`)
     }
 

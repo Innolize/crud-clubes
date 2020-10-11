@@ -22,7 +22,13 @@ module.exports = class Service {
         return this.clubRepository.getByID(id)
     }
 
-    saveTeam(team){
+    saveTeam(team) {
         return this.clubRepository.saveTeam(team)
+    }
+    deleteTeam(team) {
+        return this.clubRepository.deleteTeam(team)
+    }
+    editTeam(team) {
+        return this.clubRepository.editTeam(team)
     }
 }
