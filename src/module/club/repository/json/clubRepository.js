@@ -37,16 +37,21 @@ module.exports = class ClubRepository extends AbstractClubRepository {
         }
         return equipo
     }
+
+    /**
+     * @param {import('../../entity/Club')} club 
+     */
+
     saveTeam(club) {
         const clubs = this.getData()
 
         let clubToSave
 
         if (club.id) {
-            const clubIndex = clubs.findIndex(x => JSON.stringify(x.id) === JSON.stringify(club.id))
+            const clubIndex = clubs.findIndex(x => JSON.stringify(x.id) === club.id)
             if (clubIndex === -1) {
                 throw new ClubNotFoundError(
-                    `No se pudo actualizar el club ${team.name} porque no se encontró`
+                    `No se pudo actualizar el club ${club.name} porque no se encontró`
                 )
             }
             const oldClub = clubs[clubIndex]
@@ -64,18 +69,28 @@ module.exports = class ClubRepository extends AbstractClubRepository {
         this.saveData(clubs)
     }
 
+    /**
+     * @param {Array} content
+     */
+
     saveData(content) {
         this.fileSystem.writeFileSync(this.dbFilePath, JSON.stringify(content));
     }
 
-    deleteTeam(team) {
 
-        if(!team || !club.id){
+    /**
+     * 
+     * @param {import('../../entity/Club')} club
+     */
+
+    deleteTeam(club) {
+
+        if (!club || !club.id) {
             throw new ClubNotDefinedError('El ID del club no está definido')
         }
 
         const equipos = this.getData()
-        const indexABorrar = equipos.findIndex(x => x.id === team.id)
+        const indexABorrar = equipos.findIndex(x => x.id === club.id)
         equipos.splice(indexABorrar, 1);
         this.saveData(equipos)
 

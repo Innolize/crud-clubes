@@ -1,12 +1,12 @@
 class Club {
     constructor(id, name, area, shortName, tla, crestUrl, address, phone, website, email, founded, clubColors, venue, lastUpdate) {
-        this.id = id
-        this.area = area,
+            this.id = id
+            this.area = area,
             this.name = name,
             this.shortName = shortName,
             this.tla = tla,
             this.crestUrl = crestUrl
-        this.address = address,
+            this.address = address,
             this.phone = phone,
             this.website = website,
             this.email = email,
