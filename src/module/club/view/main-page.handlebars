@@ -1,1 +1,13 @@
+{{#each errors}}
+<div class="alert alert-danger d-flex justify-content-center" role="alert">
+    {{this}}
+</div>
+{{/each}}
+
+{{#each messages}}
+    <div class="alert alert-success d-flex justify-content-center" role="alert">
+        {{this}}
+    </div>
+{{/each}}
+
 {{>team-list equipos = data.equipos}}

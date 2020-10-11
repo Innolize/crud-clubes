@@ -35,11 +35,31 @@ module.exports = class ClubRepository extends AbstractClubRepository {
         }
         return equipo
     }
-    saveTeam(team) {
-        const equipos = this.getData()
-        const clubToSave = { ...team, id: this.uuid() }
-        equipos.push(clubToSave)
-        this.saveData(equipos)
+    saveTeam(club) {
+        const clubs = this.getData()
+
+        let clubToSave
+
+        if (club.id) {
+            const clubIndex = clubs.findIndex(x => JSON.stringify(x.id) === JSON.stringify(club.id))
+            if (clubIndex === -1) {
+                throw new ClubNotFoundError(
+                    `No se pudo actualizar el club ${team.name} porque no se encontró`
+                )
+            }
+            const oldClub = clubs[clubIndex]
+            clubs[clubIndex] = club;
+            clubToSave = club
+
+            if (!club.crestUrl) {
+                clubs[clubIndex].crestUrl = oldClub.crestUrl
+            }
+        } else {
+            clubToSave = { ...club, ...{ id: this.uuid() } }
+            clubs.push(clubToSave)
+        }
+
+        this.saveData(clubs)
     }
 
     saveData(content) {
