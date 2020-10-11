@@ -1,4 +1,6 @@
 const AbstractClubRepository = require('../abstractClubRepository')
+const ClubNotFoundError = require('../error/clubNotFoundError')
+const ClubNotDefinedError = require('../error/clubNotDefinedError')
 const Club = require('../../entity/Club')
 
 module.exports = class ClubRepository extends AbstractClubRepository {
@@ -67,6 +69,11 @@ module.exports = class ClubRepository extends AbstractClubRepository {
     }
 
     deleteTeam(team) {
+
+        if(!team || !club.id){
+            throw new ClubNotDefinedError('El ID del club no está definido')
+        }
+
         const equipos = this.getData()
         const indexABorrar = equipos.findIndex(x => x.id === team.id)
         equipos.splice(indexABorrar, 1);
