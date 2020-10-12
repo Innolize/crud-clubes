@@ -27,8 +27,7 @@ const mappearClub = (objeto) => {
         id: 2072,
         name: objeto.area ? objeto.area.name : objeto.country
     }
-    const lastUpdate = Date.now().toString()
-    return new Club(id, name, area, shortName, tla, crestURL, address, phone, website, email, founded, clubColors, venue, lastUpdate)
+    return new Club(id, name, area, shortName, tla, crestURL, address, phone, website, email, founded, clubColors, venue)
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 class Club {
-    constructor(id, name, area, shortName, tla, crestUrl, address, phone, website, email, founded, clubColors, venue, lastUpdate) {
+    constructor(id, name, area, shortName, tla, crestUrl, address, phone, website, email, founded, clubColors, venue) {
             this.id = id
             this.area = area,
             this.name = name,
@@ -12,8 +12,7 @@ class Club {
             this.email = email,
             this.founded = founded,
             this.clubColors = clubColors,
-            this.venue = venue,
-            this.lastUpdate = lastUpdate
+            this.venue = venue
     }
 }
 

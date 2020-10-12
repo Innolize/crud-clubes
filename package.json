@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "eslint": "^7.11.0",
     "jest": "^26.5.2",
     "nodemon": "^2.0.4",
     "rsdi": "^1.0.5",

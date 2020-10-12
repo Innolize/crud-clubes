@@ -1,6 +1,6 @@
 const AbstractClubRepository = require('../abstractClubRepository')
 const ClubNotFoundError = require('../error/clubNotFoundError')
-const ClubNotDefinedError = require('../error/clubNotDefinedError')
+const ClubNotDefinedError = require('../error/clubIdNotDefinedError')
 const Club = require('../../entity/Club')
 
 module.exports = class ClubRepository extends AbstractClubRepository {

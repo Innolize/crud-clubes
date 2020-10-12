@@ -1,5 +1,6 @@
 const AbstractController = require("../../AbstractController");
-const { mappearClub } = require('../mapper/club-mapper')
+const { mappearClub } = require('../mapper/club-mapper');
+const ClubIdNotDefinedError = require("../repository/error/clubIdNotDefinedError");
 
 
 
@@ -26,7 +27,7 @@ module.exports = class ClubController extends AbstractController {
         app.get('/delete-team/:id', this.deleteSelectedTeam.bind(this))
         app.get('/create-team', this.createTeam.bind(this))
         app.post('/save', this.uploadMiddleware.single('logo'), this.saveTeam.bind(this))
-        app.post('/remove-team/:id', this.removeTeam.bind(this))
+        app.post('/remove-team/:id', this.deleteTeam.bind(this))
     }
 
     /**
@@ -58,9 +59,13 @@ module.exports = class ClubController extends AbstractController {
     */
 
     showSelectedTeam(req, res) {
-        const id = req.params.id.toLowerCase()
+
+        const { id } = req.params
+        if (!id) {
+            throw new ClubIdNotDefinedError();
+        }
+
         const equipo = this.clubService.getByID(id)
-        console.log(equipo)
 
         res.render('view-team', {
             layout: 'main',
@@ -75,7 +80,7 @@ module.exports = class ClubController extends AbstractController {
     */
 
     editSelectedTeam(req, res) {
-        const id = req.params.id.toLowerCase()
+        const id = req.params.id
         const equipoPorID = this.clubService.getByID(id)
         const equipo = mappearClub(equipoPorID)
 
@@ -92,7 +97,7 @@ module.exports = class ClubController extends AbstractController {
     */
 
     deleteSelectedTeam(req, res) {
-        const id = req.params.id.toLowerCase()
+        const id = req.params.id
         const equipo = this.clubService.getByID(id)
 
         res.render('delete-team', {
@@ -147,11 +152,10 @@ module.exports = class ClubController extends AbstractController {
     *@param {import('express').Response} res
     */
 
-    removeTeam(req, res) {
+    deleteTeam(req, res) {
         try {
-            const id = req.params.id.toLowerCase()
-            const equipo = this.clubService.getByID(id)
-            this.clubService.deleteTeam(equipo)
+            const id = req.params.id
+            this.clubService.deleteTeam(id)
             req.session.messages = [`Se elimino el club ${equipo.name} con exito!`]
         } catch (e) {
             req.session.errors = [e.message]
