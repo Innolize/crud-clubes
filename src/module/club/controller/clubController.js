@@ -1,6 +1,6 @@
 const AbstractController = require("../../AbstractController");
 const { mappearClub } = require('../mapper/club-mapper');
-const ClubIdNotDefinedError = require("../repository/error/clubIdNotDefinedError");
+const ClubIdNotDefinedError = require("../service/error/clubIdNotDefinedError");
 
 
 

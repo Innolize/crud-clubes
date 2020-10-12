@@ -1,6 +1,6 @@
 const ClubController = require('../clubController')
 const Club = require('../../entity/Club')
-const ClubIdNotDefinedError = require('../../repository/error/clubIdNotDefinedError')
+const ClubIdNotDefinedError = require('../../service/error/clubIdNotDefinedError')
 
 const uploadMiddleware = {
     single: jest.fn()

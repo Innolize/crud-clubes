@@ -1,1 +1,1 @@
-module.exports = class clubIdNotDefinedError extends Error {}
+module.exports = class clubIdNotDefinedError extends Error { }

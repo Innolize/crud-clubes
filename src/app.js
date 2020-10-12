@@ -27,7 +27,7 @@ app.set('views', __dirname + '/module/club/view');
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-const container = configureDependencyInjection(app);
+const container = configureDependencyInjection();
 app.use(container.get('Session'));
 
 initClubModule(app, container)
