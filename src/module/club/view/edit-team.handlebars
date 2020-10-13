@@ -1,11 +1,12 @@
 {{#if equipo}}
 <div class='contenedor-equipo'>
-    <form class='form-flex' action='/edit-team/{{equipo.tla}}' method="POST" enctype="multipart/form-data">
+    <form class='form-flex' action='/save' method="POST" enctype="multipart/form-data">
         <img class='imagen-club-grande' src={{equipo.crestUrl}} />
         <input style="align-self: center;" type="file" name='logo' value='Change logo'>
         <h2>{{equipo.name}}</h2>
         <table class='table tabla-equipo'>
             <tbody>
+                <input type="hidden" name='id' value="{{equipo.id}}">
                 <tr>
                     <td>Name</td>
                     <td><input name='name' value="{{equipo.name}}"></td>
